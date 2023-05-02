@@ -283,6 +283,22 @@ class TaskListActivity : BaseActivity() {
         /** Previous position was in the board details */
     }
 
+    // TODO Adding the Drag and Drop Feature  (Step 4: Create a function to update the card list in the particular task list.)
+    // START
+    /**
+     * A function to update the card list in the particular task list.
+     */
+    fun updateCardsInTaskList(taskListPosition: Int, cards: ArrayList<Card>) {
+        // Remove the last item
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size - 1)
+        mBoardDetails.taskList[taskListPosition].cards = cards
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().addTaskList(this@TaskListActivity, mBoardDetails)
+    }
+
+
+
     // TODO Reloading Board Details On Change (Step 1: Create a companion object and declare a constant for starting an MembersActivity for result.)
     // START
     /**
