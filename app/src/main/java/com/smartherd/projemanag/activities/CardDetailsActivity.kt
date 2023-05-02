@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.smartherd.projemanag.R
 import com.smartherd.projemanag.databinding.ActivityCardDetailsBinding
 import com.smartherd.projemanag.dialogs.LabelColorListDialog
+import com.smartherd.projemanag.dialogs.MembersListDialog
 import com.smartherd.projemanag.firebase.FireStoreClass
 import com.smartherd.projemanag.models.Board
 import com.smartherd.projemanag.models.Card
@@ -77,6 +78,11 @@ class CardDetailsActivity : BaseActivity() {
         mSelectedColor = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].labelColor
         if (mSelectedColor.isNotEmpty()) {
             setColor()
+        }
+
+        // TODO Preparing and Passing the Card members Dialog (Step 7: Add the click event to launch the members list dialog.)
+        binding.tvSelectMembers.setOnClickListener {
+            membersListDialog()
         }
     }
 
@@ -259,5 +265,42 @@ class CardDetailsActivity : BaseActivity() {
             }
         }
         listDialog.show() /** Always remember this */
+    }
+
+    // TODO Preparing and Passing the Card members Dialog (Step 6: Create a function to launch the Members list dialog.)
+    // START
+    /**
+     * A function to launch and setup assigned members detail list into recyclerview.
+     */
+    private fun membersListDialog() {
+        // Here we get the updated assigned members list
+        val cardAssignedMembersList = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+        if (cardAssignedMembersList.size > 0) {
+            // Here we got the details of assigned members list from the global members list which is passed from the Task List screen.
+            for (i in mMembersDetailList.indices) {
+                for (j in cardAssignedMembersList) {
+                    if (mMembersDetailList[i].id == j) {
+                        // Engage the tick to all members whose ID match the ID of the card
+                        mMembersDetailList[i].selected = true
+                    }
+                }
+            }
+        } else {
+            for (i in mMembersDetailList.indices) {
+                mMembersDetailList[i].selected = false
+            }
+        }
+        val listDialog = object : MembersListDialog(
+            this@CardDetailsActivity,
+            mMembersDetailList,
+            "Select Member"
+        ) {
+            override fun onItemSelected(user: User, action: String) {
+
+            }
+        }
+        listDialog.show()
+
+
     }
 }

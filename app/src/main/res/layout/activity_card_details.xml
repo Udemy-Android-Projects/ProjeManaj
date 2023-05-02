@@ -115,6 +115,16 @@
                     android:padding="@dimen/card_details_value_padding"
                     android:text="@string/select_members"
                     android:textColor="@color/primary_text_color" />
+                <!--TODO Preparing and Passing the Card members Dialog (Step 8: Add a recyclerView for Selected Members list.)-->
+                <!--START-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_selected_members_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/card_details_value_marginTop"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+                <!--END-->
 
                 <TextView
                     android:layout_width="match_parent"

@@ -44,4 +44,9 @@ object Constants {
     // START
     const val BOARD_MEMBERS_LIST: String = "board_members_list"
     // END
+    // TODO Preparing and Passing the Card members Dialog (Step 1: Add the constants here.)
+    // START
+    const val SELECT: String = "Select"
+    const val UN_SELECT: String = "UnSelect"
+    // END
 }
