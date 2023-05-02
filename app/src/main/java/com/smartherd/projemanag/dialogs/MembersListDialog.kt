@@ -46,7 +46,6 @@ abstract class MembersListDialog (
                     onItemSelected(user, action) // Initialization entity of the function onItemSelected
                 }
             })
-
         }
     }
 

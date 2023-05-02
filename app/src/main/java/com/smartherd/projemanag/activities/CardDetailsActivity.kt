@@ -9,17 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import com.smartherd.projemanag.R
+import com.smartherd.projemanag.adapter.CardMembersAdapter
 import com.smartherd.projemanag.databinding.ActivityCardDetailsBinding
 import com.smartherd.projemanag.dialogs.LabelColorListDialog
 import com.smartherd.projemanag.dialogs.MembersListDialog
 import com.smartherd.projemanag.firebase.FireStoreClass
-import com.smartherd.projemanag.models.Board
-import com.smartherd.projemanag.models.Card
-import com.smartherd.projemanag.models.Task
-import com.smartherd.projemanag.models.User
+import com.smartherd.projemanag.models.*
 import com.smartherd.projemanag.utils.Constants
 
 class CardDetailsActivity : BaseActivity() {
@@ -79,6 +79,9 @@ class CardDetailsActivity : BaseActivity() {
         if (mSelectedColor.isNotEmpty()) {
             setColor()
         }
+
+        // TODO Finish the Add Members Feature (Step 1: Call the method to set up the recycler view in the card)
+        setupSelectedMembersList()
 
         // TODO Preparing and Passing the Card members Dialog (Step 7: Add the click event to launch the members list dialog.)
         binding.tvSelectMembers.setOnClickListener {
@@ -296,11 +299,68 @@ class CardDetailsActivity : BaseActivity() {
             "Select Member"
         ) {
             override fun onItemSelected(user: User, action: String) {
-
+                // TODO Finish the Add Members Feature (Step 2: Use the action done by the user to alter the assignedTo field and the select property of SelectedMembers model accordingly)
+                if(action == Constants.SELECT) {
+                    // If the selected user is not assigned the card...do so
+                    if(!mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.contains(user.id)) {
+                        mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.add(user.id)
+                    }
+                } else { // If the action is Constants.UnSelect remove the user and set the select property to false to remove the tick
+                   mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.remove(user.id)
+                   // G through all the members,select the one we removed and set their select property to false
+                    for(i in mMembersDetailList.indices) {
+                        if(mMembersDetailList[i].id == user.id)
+                            mMembersDetailList[i].selected = false
+                    }
+                }
+                // Refresh the recyclerview
+                setupSelectedMembersList()
             }
         }
         listDialog.show()
+    }
 
+    // TODO Prepare the Add Members Feature (Step 3: Create a function to setup the recyclerView for card assigned members.)
+// START
+    /**
+     * A function to setup the recyclerView for card assigned members.
+     */
+    private fun setupSelectedMembersList() {
+        // Assigned members of the Card.
+        val cardAssignedMembersList = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+        // A instance of selected members list.
+        val selectedMembersList: ArrayList<SelectedMembers> = ArrayList()
+        // Here we got the detail list of members and add it to the selected members list as required.
+        for (i in mMembersDetailList.indices) {
+            for (j in cardAssignedMembersList) {
+                if (mMembersDetailList[i].id == j) {
+                    val selectedMember = SelectedMembers(
+                        mMembersDetailList[i].id,
+                        mMembersDetailList[i].image
+                    )
+                    selectedMembersList.add(selectedMember)
+                }
+            }
+        }
+        if (selectedMembersList.size > 0) {
+            // This is for the last item to show. The add icon
+            selectedMembersList.add(SelectedMembers("", ""))
+            binding.tvSelectMembers.visibility = View.GONE
+            binding.rvSelectedMembersList.visibility = View.VISIBLE
+            binding.rvSelectedMembersList.layoutManager = GridLayoutManager(this@CardDetailsActivity,6)
+            val adapter = CardMembersAdapter(this@CardDetailsActivity,selectedMembersList)
+            binding.rvSelectedMembersList.adapter = adapter
+            adapter.setOnClickListener(
+                object : CardMembersAdapter.OnClickListener{
+                    override fun onClick() {
+                        membersListDialog()
+                    }
 
+                }
+            )
+        } else {
+            binding.tvSelectMembers.visibility = View.VISIBLE
+            binding.rvSelectedMembersList.visibility = View.GONE
+        }
     }
 }
