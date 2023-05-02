@@ -18,6 +18,7 @@ import com.smartherd.projemanag.firebase.FireStoreClass
 import com.smartherd.projemanag.models.Board
 import com.smartherd.projemanag.models.Card
 import com.smartherd.projemanag.models.Task
+import com.smartherd.projemanag.models.User
 import com.smartherd.projemanag.utils.Constants
 
 class TaskListActivity : BaseActivity() {
@@ -28,6 +29,11 @@ class TaskListActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
     // END
     private lateinit var mBoardDocumentId: String
+    // TODO Passing The Memberlist to The Card (Step 2: Add a global variable for Assigned Members List.)
+    // START
+    // A global variable for Assigned Members List.
+    private lateinit var mAssignedMembersDetailList: ArrayList<User>
+    // END
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskListBinding.inflate(layoutInflater)
@@ -102,6 +108,18 @@ class TaskListActivity : BaseActivity() {
         // Create an instance of TaskListItemsAdapter and pass the task list to it.
         val adapter = TaskListAdapter(this@TaskListActivity, mBoardDetails.taskList)
         binding.rvTaskList.adapter = adapter
+
+        // TODO Passing The Memberlist to The Card (Step 5: Get all the members detail list which are assigned to the board.)
+        // START
+        // Show the progress dialog.
+        showProgressDialog("Fetching members...")
+        FireStoreClass().getAssignedMembersListDetails(
+            this@TaskListActivity,
+            mBoardDetails.assignedTo
+        )
+        // END
+
+
     }
 
     // TODO Create Lists Inside a Board (Step 6: Create a function to get the result of add or updating the task list.)
@@ -240,10 +258,24 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
+        // TODO Passing The Memberlist to The Card (Step 6: Pass the Assigned members board details list to the card detail screen.)
+        // START
+        intent.putExtra(Constants.BOARD_MEMBERS_LIST, mAssignedMembersDetailList)
+        // END
         // TODO Adding The Delete Card Menu and Populating the Edittext (Step 5: Update the intent using the start activity for result.)
         // START
         startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE)
         // END
+    }
+
+    // TODO Passing The Memberlist to The Card  (Step 3: Create a function to get the members detail list.)
+    // START
+    /**
+     * A function to get assigned members detail list.
+     */
+    fun boardMembersDetailList(list: ArrayList<User>) {
+        mAssignedMembersDetailList = list
+        hideProgressDialog()
     }
 
     // TODO Reloading Board Details On Change (Step 1: Create a companion object and declare a constant for starting an MembersActivity for result.)

@@ -18,6 +18,7 @@ import com.smartherd.projemanag.firebase.FireStoreClass
 import com.smartherd.projemanag.models.Board
 import com.smartherd.projemanag.models.Card
 import com.smartherd.projemanag.models.Task
+import com.smartherd.projemanag.models.User
 import com.smartherd.projemanag.utils.Constants
 
 class CardDetailsActivity : BaseActivity() {
@@ -35,6 +36,11 @@ class CardDetailsActivity : BaseActivity() {
     // START
     // A global variable for selected label color
     private var mSelectedColor: String = ""
+    // END
+    // TODO Passing The Memberlist to The Card (Step 7: Add a global variable for Assigned Members Detail List.)
+    // START
+    // A global variable for Assigned Members List.
+    private lateinit var mMembersDetailList: ArrayList<User>
     // END
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +113,12 @@ class CardDetailsActivity : BaseActivity() {
         if (intent.hasExtra(Constants.CARD_LIST_ITEM_POSITION)) {
             mCardPosition = intent.getIntExtra(Constants.CARD_LIST_ITEM_POSITION, -1)
         }
+        // TODO Passing The Memberlist to The Card (Step 8: Get the members detail list here through intent.)
+        // START
+        if (intent.hasExtra(Constants.BOARD_MEMBERS_LIST)) {
+            mMembersDetailList = intent.getParcelableArrayListExtra(Constants.BOARD_MEMBERS_LIST)!!
+        }
+        // END
         // TODO Loading Card Details to Set Card Title (Step 5: Set the title of action bar.)
         setUpActionBar(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
     }

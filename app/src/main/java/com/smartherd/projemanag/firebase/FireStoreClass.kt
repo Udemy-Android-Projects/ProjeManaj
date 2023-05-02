@@ -257,7 +257,8 @@ class FireStoreClass : BaseActivity() {
     /**
      * A function to get the list of user details which is assigned to the board.
      */
-    fun getAssignedMembersListDetails(activity: MembersActivity, assignedTo: ArrayList<String>) {
+    fun getAssignedMembersListDetails(activity: Activity, /* TODO Passing The Memberlist to The Card(Step 4: Change the function parameters as required and also pass the result based on activity instance by passing the general activity as a parameter.) */
+                                      assignedTo: ArrayList<String>) {
         mFireStore.collection(Constants.USERS) // Collection Name
             .whereIn(Constants.ID, assignedTo) // Here the database field name and the id's of the members.
             .get()
@@ -269,11 +270,18 @@ class FireStoreClass : BaseActivity() {
                     val user = i.toObject(User::class.java)!!
                     usersList.add(user)
                 }
-                activity.setupMembersList(usersList)
+
+                if(activity is MembersActivity)
+                    activity.setupMembersList(usersList)
+                if(activity is TaskListActivity) // TODO Passing The Memberlist to The Card
+                    activity.boardMembersDetailList(usersList)
 
             }
             .addOnFailureListener { e ->
-                activity.hideProgressDialog()
+                if(activity is MembersActivity)
+                    activity.hideProgressDialog()
+                else if(activity is TaskListActivity)
+                    activity.hideProgressDialog()
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error while fetching members from in the board.",
