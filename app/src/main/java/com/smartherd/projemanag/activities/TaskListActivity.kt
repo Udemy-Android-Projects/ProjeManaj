@@ -32,7 +32,7 @@ class TaskListActivity : BaseActivity() {
     // TODO Passing The Memberlist to The Card (Step 2: Add a global variable for Assigned Members List.)
     // START
     // A global variable for Assigned Members List.
-    private lateinit var mAssignedMembersDetailList: ArrayList<User>
+    lateinit var mAssignedMembersDetailList: ArrayList<User> /*TODO Displaying the Assigned Users Per Card on ListLevel (Step 1: Make this variable public)*/
     // END
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,15 +99,8 @@ class TaskListActivity : BaseActivity() {
         // Call the function to setup action bar.
         setupActionBar(mBoardDetails.name)
         // END
-        // TODO The TaskList Adapter (Step 3: Setup the task list view using the adapter class and task list of the board.)
-        // Here we are appending an item view for adding a list task list for the board.
-        val addTaskList = Task(resources.getString(R.string.add_list))
-        mBoardDetails.taskList.add(addTaskList)
-        binding.rvTaskList.layoutManager = LinearLayoutManager(this@TaskListActivity, LinearLayoutManager.VERTICAL, false)
-        binding.rvTaskList.setHasFixedSize(true)
-        // Create an instance of TaskListItemsAdapter and pass the task list to it.
-        val adapter = TaskListAdapter(this@TaskListActivity, mBoardDetails.taskList)
-        binding.rvTaskList.adapter = adapter
+
+        /** Previous position of cut code in the boardMembersDetailList */
 
         // TODO Passing The Memberlist to The Card (Step 5: Get all the members detail list which are assigned to the board.)
         // START
@@ -276,6 +269,18 @@ class TaskListActivity : BaseActivity() {
     fun boardMembersDetailList(list: ArrayList<User>) {
         mAssignedMembersDetailList = list
         hideProgressDialog()
+
+        /** Previous position was in the board details */
+        // TODO The TaskList Adapter (Step 3: Setup the task list view using the adapter class and task list of the board.)
+        // Here we are appending an item view for adding a list task list for the board.
+        val addTaskList = Task(resources.getString(R.string.add_list))
+        mBoardDetails.taskList.add(addTaskList)
+        binding.rvTaskList.layoutManager = LinearLayoutManager(this@TaskListActivity, LinearLayoutManager.VERTICAL, false)
+        binding.rvTaskList.setHasFixedSize(true)
+        // Create an instance of TaskListItemsAdapter and pass the task list to it.
+        val adapter = TaskListAdapter(this@TaskListActivity, mBoardDetails.taskList)
+        binding.rvTaskList.adapter = adapter
+        /** Previous position was in the board details */
     }
 
     // TODO Reloading Board Details On Change (Step 1: Create a companion object and declare a constant for starting an MembersActivity for result.)

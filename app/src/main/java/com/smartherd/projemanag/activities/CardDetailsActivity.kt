@@ -348,7 +348,12 @@ class CardDetailsActivity : BaseActivity() {
             binding.tvSelectMembers.visibility = View.GONE
             binding.rvSelectedMembersList.visibility = View.VISIBLE
             binding.rvSelectedMembersList.layoutManager = GridLayoutManager(this@CardDetailsActivity,6)
-            val adapter = CardMembersAdapter(this@CardDetailsActivity,selectedMembersList)
+            // TODO Displaying the Assigned Users Per Card on ListLevel (Step 6: Set the adapter in the activity card details with the assigned members to make them visible at the card detail level.)
+            val adapter = CardMembersAdapter(
+                this@CardDetailsActivity,
+                selectedMembersList
+                ,true /* Set to true since there is a chance that the member who created the card is the only one present. If there are more members the list.size - 1 component will be the deciding factor */
+            )
             binding.rvSelectedMembersList.adapter = adapter
             adapter.setOnClickListener(
                 object : CardMembersAdapter.OnClickListener{

@@ -14,7 +14,8 @@ import com.smartherd.projemanag.models.User
 // TODO Prepare the Add Members Feature (Step 2: Create a adapter class for selected members list.)
 open class CardMembersAdapter(
     private val context: Context,
-    private var list: ArrayList<SelectedMembers>
+    private var list: ArrayList<SelectedMembers>,
+    private val assignMembersAbsent : Boolean /* TODO Displaying the Assigned Users Per Card on ListLevel (Step 3 : Create a variable to determine how to show the members of a card at the card detail level. If the only member of the card is the one who created it he is not shown but the add symbol is shown) */
 ) : RecyclerView.Adapter<CardMembersAdapter.CardMembersViewHolder>() {
 
     private var onClickListener: OnClickListener? = null
@@ -30,7 +31,8 @@ open class CardMembersAdapter(
 
     override fun onBindViewHolder(holder: CardMembersViewHolder, position: Int) {
         val model = list[position]
-        if (position == list.size - 1) { // We have a dummy item therefore this equality represents an empty list
+        if (position == list.size - 1 && assignMembersAbsent /* TODO Displaying the Assigned Users Per Card on ListLevel (Step 4 : Use the variable to ensure that if the member who created the card is the only one present his image is not shown but at the card detail level) */
+        ) { // We have a dummy item therefore this equality represents an empty list
             holder.ivAddMember.visibility = View.VISIBLE
             holder.ivSelectedMemberImage.visibility = View.GONE
         } else {

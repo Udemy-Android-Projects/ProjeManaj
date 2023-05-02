@@ -18,7 +18,7 @@
         android:visibility="visible"
         app:civ_border_color="@color/primary_text_color"
         app:civ_border_width="@dimen/item_member_image_circular_width_size"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_add_member"
