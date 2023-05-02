@@ -9,13 +9,15 @@ data class Card(
     val createdBy: String = "",
     val assignedTo: ArrayList<String> = ArrayList(),
     // TODO Setting the Color and Updating the Card  (Step 5: Add a field for label color.)
-    var labelColor: String = ""
+    var labelColor: String = "",
+    val dueDate: Long = 0 // TODO Adding a Due Date (Step 1: Add a field for due date.)
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.createStringArrayList()!!,
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.readLong()
     ) {
     }
 
@@ -28,6 +30,7 @@ data class Card(
         dest.writeString(createdBy)
         dest.writeStringList(assignedTo)
         dest.writeString(labelColor)
+        dest.writeLong(dueDate)
     }
 
     companion object CREATOR : Parcelable.Creator<Card> {
