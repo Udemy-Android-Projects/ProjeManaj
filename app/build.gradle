@@ -73,5 +73,11 @@ dependencies {
     // Firebase Storage Dependency
     implementation 'com.google.firebase:firebase-storage:20.1.0'
     // END
+    // TODO Preparing the Notification Feature (Step 1: Add a firebase messaging dependency.)
+    // START
+    // For more details visit link: https://firebase.google.com/docs/cloud-messaging/android/client
+    // Firebase Messaging Dependency
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    // END
 
 }

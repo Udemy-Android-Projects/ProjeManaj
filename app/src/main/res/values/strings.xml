@@ -42,4 +42,5 @@
     <string name="delete_card">Delete Card</string>
     <string name="confirmation_message_to_delete_card">Are you sure you want to delete card \'%1$s\'?</string>
     <string name="str_select_label_color">Select Label Color</string>
+    <string name="default_notification_channel_id">projemanag_notification_channel_id</string>
 </resources>
