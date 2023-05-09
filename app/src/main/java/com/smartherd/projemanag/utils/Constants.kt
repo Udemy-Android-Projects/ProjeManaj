@@ -49,4 +49,11 @@ object Constants {
     const val SELECT: String = "Select"
     const val UN_SELECT: String = "UnSelect"
     // END
+    // TODO Adding the Token to the DB (Step 1: Add a SharedPreferences name and key names.)
+    // START
+    const val PROGEMANAG_PREFERENCES: String = "ProjemanagPrefs"
+
+    const val FCM_TOKEN:String = "fcmToken"
+    const val FCM_TOKEN_UPDATED:String = "fcmTokenUpdated"
+    // END
 }

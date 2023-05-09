@@ -108,21 +108,36 @@ class FireStoreClass : BaseActivity() {
     }
 
     // TODO Updating the User Data Via HashMap in the FireStore Database (Step 2 : Create a function to update the user profile data into the database.)
-    fun updateUserProfileData(activity: ProfileActivity, userHashMap: HashMap<String, Any>) {
+    fun updateUserProfileData(activity: Activity /** TODO Adding the Token to the DB(Step 5: Change the parameters as per requirement{The parameter activity is of type Activity and not a specific activity} and send the result to the base activity based on the instance/activity.) */
+                              , userHashMap: HashMap<String, Any>) {
         mFireStore.collection(Constants.USERS) // Collection Name
             .document(getCurrentUserID()) // Document ID
             .update(userHashMap) // A hashmap of fields which are to be updated.
             .addOnSuccessListener {
                 // Profile data is updated successfully.
                 Log.e(activity.javaClass.simpleName, "Profile Data updated successfully!")
-
                 Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+                // TODO Adding the Token to the DB Step 5
+                when(activity) {
+                    is MainActivity -> {
+                        activity.tokenUpdateSuccess()
+                    }
+                    is ProfileActivity -> {
+                        // Notify the success result.
+                        activity.profileUpdateSuccess()
+                    }
+                }
 
-                // Notify the success result.
-                activity.profileUpdateSuccess()
             }
             .addOnFailureListener { e ->
-                activity.hideProgressDialog()
+                when(activity) {
+                    is MainActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is ProfileActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error while creating a board.",
