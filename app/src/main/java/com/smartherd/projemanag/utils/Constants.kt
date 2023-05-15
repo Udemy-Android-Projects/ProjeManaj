@@ -56,4 +56,19 @@ object Constants {
     const val FCM_TOKEN:String = "fcmToken"
     const val FCM_TOKEN_UPDATED:String = "fcmTokenUpdated"
     // END
+
+    // TODO Adding the Notifications (Step 1: Add the base url  and key params for sending firebase notification.)
+    // START
+    const val FCM_BASE_URL:String = "https://fcm.googleapis.com/fcm/send"
+    const val FCM_AUTHORIZATION:String = "authorization"
+    const val FCM_KEY:String = "key"
+    /* use own server key
+    * Enable in Project Settings -> Cloud Messaging
+    *  */
+    const val FCM_SERVER_KEY:String = "AAAA6cx9Occ:APA91bEUp0Rgd9XDaopTTFBZq03z09cwv56_WvNDtr83hH2NKAgIGhXlYbcCVOXh53m5_FJpWX6Ld-bf8npyUA64NFYQRmexZC0rSZWTSx4qD6rW5iu9TWo08rIU29zBhyihgtsOJO6j"
+    const val FCM_KEY_TITLE:String = "title"
+    const val FCM_KEY_MESSAGE:String = "message"
+    const val FCM_KEY_DATA:String = "data"
+    const val FCM_KEY_TO:String = "to"
+    // END
 }
